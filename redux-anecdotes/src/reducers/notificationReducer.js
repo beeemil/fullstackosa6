@@ -13,12 +13,6 @@ const notificationReducer = ( state=initialState, action) => {
     }
 }
 
-
-// const notificationInterval = dispatch => {
-//     console.log('interval called', notificationList)
-//     const notification = notificationList.shift()
-//     dispatch(notify(notification))
-// }
 let timeout
 export const setNotification = ( content, time ) => {
     return async dispatch => {
