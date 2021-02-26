@@ -2,9 +2,10 @@
 const initialState = ''
 const notificationReducer = ( state=initialState, action) => {
     console.log('Action content', action)
+    const content = action.content
     switch(action.type) {
         case 'NOTIFY':
-            return action.content
+            return content
         case 'CLEAR':
             return ''
         default:
@@ -12,17 +13,23 @@ const notificationReducer = ( state=initialState, action) => {
     }
 }
 
+
+// const notificationInterval = dispatch => {
+//     console.log('interval called', notificationList)
+//     const notification = notificationList.shift()
+//     dispatch(notify(notification))
+// }
+let timeout
 export const setNotification = ( content, time ) => {
-    return  dispatch => {
-    dispatch({
-        type: 'NOTIFY',
-        content: content
-    })
-    setTimeout(() => {
-        dispatch({
-          type: 'CLEAR'
-        })
-    }, time * 1000)}
+    return async dispatch => {
+        if (timeout) {
+            clearTimeout(timeout)
+            timeout = null
+        } timeout = setTimeout(() => {
+            dispatch({ type: 'CLEAR' })
+        }, time * 1000)
+        dispatch({ type: 'NOTIFY', content })
+    }
 }
 
 export default notificationReducer
